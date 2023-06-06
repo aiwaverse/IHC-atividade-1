@@ -34,7 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.text.isDigitsOnly
 import com.ihc.tp1parte1exercicio1.ui.theme.TP1Parte1Exercicio1Theme
 
 class MainActivity : ComponentActivity() {
@@ -132,9 +131,9 @@ fun Atividade1InputsWithButtonAndView() {
         )
         Button(
             onClick = {
-                if (valor1.isDigitsOnly() && valor1.isNotEmpty() && valor2.isDigitsOnly() && valor2.isNotEmpty()) {
-                    resultSum = valor1.toInt() + valor2.toInt()
-                }
+                val num1 = valor1.toIntOrNull()
+                val num2 = valor2.toIntOrNull()
+                resultSum = if (num1 != null && num2 != null) num1 + num2 else null
             },
             modifier = Modifier.padding(15.dp).fillMaxWidth(),
         ) {
