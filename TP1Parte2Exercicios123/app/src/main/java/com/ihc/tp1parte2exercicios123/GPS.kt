@@ -1,10 +1,21 @@
 package com.ihc.tp1parte2exercicios123
 
-import android.location.Location
-import android.location.LocationListener
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationResult
 
-class GPS(val locationChangedCallback: (Location) -> Unit) : LocationListener {
-    override fun onLocationChanged(location: Location) {
-        locationChangedCallback(location)
-    }
+class GPS(
+    val fusedLocationProviderClient: FusedLocationProviderClient,
+    val checkPermissions: () -> Boolean,
+    val callback: (LocationResult) -> Unit,
+) {
+//    private val requestPermissionLauncher = registerForActivityResult(
+//        ActivityResultContracts.RequestPermission(),
+//    ) {
+//    }
+//    init {
+//        if (!checkPermissions()) {
+//
+//        }
+//    }
 }

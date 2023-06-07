@@ -41,8 +41,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
 import com.ihc.tp1parte2exercicios123.ui.theme.TP1Parte2Exercicios123Theme
 
 class MainActivity : ComponentActivity() {
@@ -55,10 +57,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (hasLocationPermission(this)) {
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         setContent {
@@ -68,6 +66,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
+                    if (!hasLocationPermission(this)) {
+                        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                    }
                     Atividade4App(fusedLocationClient)
                 }
             }
@@ -95,13 +96,16 @@ fun Atividade4App(
     GenericSensor(sensorManager, sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)) {
         pressure = it[0]
     }
-    if (hasLocationPermission(LocalContext.current)) {
-        fusedLocationClient?.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)?.addOnSuccessListener { location ->
-            if (location != null) {
-                longitude = location.longitude
-                latitude = location.latitude
+    if (hasLocationPermission(LocalContext.current) && fusedLocationClient != null) {
+        val locationRequest = LocationRequest.Builder(1000).build()
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                longitude = locationResult.lastLocation?.longitude
+                latitude = locationResult.lastLocation?.latitude
             }
         }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
     Scaffold(
@@ -153,7 +157,7 @@ fun SensorInfoDisplay(information: List<List<Pair<String, String>>>) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
     ) {
         information.forEach {
             Row {
@@ -183,5 +187,9 @@ fun hasLocationPermission(context: Context): Boolean {
     return ActivityCompat.checkSelfPermission(
         context,
         Manifest.permission.ACCESS_FINE_LOCATION,
-    ) != PackageManager.PERMISSION_GRANTED
+    ) == PackageManager.PERMISSION_GRANTED ||
+        ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+        ) == PackageManager.PERMISSION_GRANTED
 }
