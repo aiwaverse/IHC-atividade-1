@@ -93,7 +93,7 @@ fun Atividade1App() {
 fun Atividade1InputsWithButtonAndView() {
     var valor1 by remember { mutableStateOf("") }
     var valor2 by remember { mutableStateOf("") }
-    var resultSum: Int? by remember {
+    var resultSum: Double? by remember {
         mutableStateOf(null)
     }
     Column(
@@ -131,8 +131,8 @@ fun Atividade1InputsWithButtonAndView() {
         )
         Button(
             onClick = {
-                val num1 = valor1.toIntOrNull()
-                val num2 = valor2.toIntOrNull()
+                val num1 = valor1.toDoubleOrNull()
+                val num2 = valor2.toDoubleOrNull()
                 resultSum = if (num1 != null && num2 != null) num1 + num2 else null
             },
             modifier = Modifier.padding(15.dp).fillMaxWidth(),

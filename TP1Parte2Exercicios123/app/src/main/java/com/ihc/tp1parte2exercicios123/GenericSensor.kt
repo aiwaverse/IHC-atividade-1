@@ -6,7 +6,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.hardware.SensorManager.SENSOR_DELAY_NORMAL
 
-class GenericSensor(private val sensorManager: SensorManager, sensor: Sensor?, val onChange: (FloatArray) -> Unit) : SensorEventListener {
+class GenericSensor(
+    private val sensorManager: SensorManager,
+    sensor: Sensor?,
+    val onChange: (FloatArray) -> Unit,
+) : SensorEventListener {
 
     init {
         this.sensorManager.registerListener(this, sensor, SENSOR_DELAY_NORMAL)

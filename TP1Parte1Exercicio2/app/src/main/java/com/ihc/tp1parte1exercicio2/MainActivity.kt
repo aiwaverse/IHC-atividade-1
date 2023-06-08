@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     Atividade2App()
                 }
@@ -69,25 +69,25 @@ fun Atividade2App() {
                 title = {
                     Text(
                         text = stringResource(R.string.atividade_2),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 },
                 colors = TopAppBarDefaults.smallTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 ),
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 8.dp),
             )
-        }
+        },
     ) { innerPadding ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.tertiaryContainer),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             NavHost(navController = navController, startDestination = "input") {
                 composable("input") {
@@ -110,7 +110,7 @@ fun MessageDisplay(message: String) {
         modifier = Modifier.padding(8.dp).fillMaxWidth(),
         textAlign = TextAlign.Center,
         fontSize = 24.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
     )
 }
 
@@ -119,12 +119,12 @@ fun MessageDisplay(message: String) {
 fun MessageSetUpAndConfirmButton(
     value: String,
     onValueChange: (String) -> Unit,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         TextField(
             value = value,
@@ -136,13 +136,13 @@ fun MessageSetUpAndConfirmButton(
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
             ),
-            placeholder = { Text(stringResource(R.string.enter_a_message)) }
+            placeholder = { Text(stringResource(R.string.enter_a_message)) },
         )
         Button(
             onClick = onClick,
-            modifier = Modifier.padding(8.dp).height(TextFieldDefaults.MinHeight)
+            modifier = Modifier.padding(8.dp).height(TextFieldDefaults.MinHeight),
         ) {
             Text(text = stringResource(R.string.send))
         }
